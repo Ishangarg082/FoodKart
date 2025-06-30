@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/home_page")
+@RequestMapping("/v1/home")
 public class HomePageController {
 
     private final HomePageService homePageService;
@@ -17,7 +17,7 @@ public class HomePageController {
         this.homePageService = homePageService;
     }
 
-    @GetMapping("/get_details")
+    @GetMapping("/get-details")
     public ResponseEntity<HomePageResponseDTO> getHomePageDetails() {
         HomePageResponseDTO homePageResponse = homePageService.getHomePageResponse();
         if(homePageResponse != null)

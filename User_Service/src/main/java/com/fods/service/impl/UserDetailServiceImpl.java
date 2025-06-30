@@ -10,21 +10,25 @@ import com.fods.repository.UserDetailsRepository;
 import com.fods.service.UserDetailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailService {
     private final UserDetailsRepository userDetailsRepository;
+    private final PasswordEncoder passwordEncoder;
     private static final Logger logger = LogManager.getLogger(UserDetailServiceImpl.class);
 
-    public UserDetailServiceImpl(UserDetailsRepository userDetailsRepository) {
+    public UserDetailServiceImpl(UserDetailsRepository userDetailsRepository, PasswordEncoder passwordEncoder) {
         this.userDetailsRepository = userDetailsRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDetailResponseDTO saveUserDetails(UserDetailsRequestDTO userDetailsRequestDTO) {
         logger.info("Entering inside saveUserDetails...........................");
         UserDetails userDetailsEntityObj = UserDetailsServiceMapper.getUserDetailsEntityObj(userDetailsRequestDTO);
+        userDetailsEntityObj.setPassword(passwordEncoder.encode(userDetailsEntityObj.getPassword()));
         UserDetails userDetails = userDetailsRepository.save(userDetailsEntityObj);
         return UserDetailsServiceMapper.toUserDetailsResponseDTO(userDetails);
     }

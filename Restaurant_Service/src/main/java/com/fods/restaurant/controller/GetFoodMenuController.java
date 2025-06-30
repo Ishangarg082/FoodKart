@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 @RestController
-@RequestMapping("/v1/restaurant/{restaurantId}")
+@RequestMapping("/v1/restaurant/menu/{restaurantId}")
 public class GetFoodMenuController {
 
     private final RestaurantService restaurantService;

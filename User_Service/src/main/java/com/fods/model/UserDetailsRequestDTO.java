@@ -5,7 +5,7 @@ public record UserDetailsRequestDTO(
         String contactNumber,
         String emailId,
         String password,
-        UserAddressDTO userAddressDTO
+        UserAddressDTO addressDetails
 ) {
 
 }

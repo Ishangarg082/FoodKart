@@ -39,7 +39,7 @@ public class RestaurantServiceClient {
     private CompletableFuture<MenuItemDetailResponseDTO<MenuItemNameAndPriceDTO>> fetchItemDetailAsync(long menuId,
                                                                                                        long restaurantId) {
 //        String uri = String.format("http://localhost:9092/v1/restaurant/%d/menu/%d/detail", restaurantId, menuId);
-        String uri = String.format("http://Restaurant-Service/v1/restaurant/%d/menu/%d/detail", restaurantId, menuId);
+        String uri = String.format("http://Restaurant-Service/v1/restaurant/menu/%d/menu/%d/detail", restaurantId, menuId);
 
         logger.info("URI: {}", uri);
 

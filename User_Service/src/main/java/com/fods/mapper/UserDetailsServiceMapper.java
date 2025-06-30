@@ -9,6 +9,7 @@ import com.fods.model.UserDetailsRequestDTO;
 import java.util.List;
 
 public class UserDetailsServiceMapper {
+
     public static UserAddressDetails getUserAddressDetails(UserAddressDTO userAddressDTO) {
         return UserAddressDetails
                 .builder()
@@ -22,7 +23,7 @@ public class UserDetailsServiceMapper {
     }
 
     public static UserDetails getUserDetailsEntityObj(UserDetailsRequestDTO userDetailsRequestDTO) {
-        UserAddressDetails userAddressDetails = getUserAddressDetails(userDetailsRequestDTO.userAddressDTO());
+        UserAddressDetails userAddressDetails = getUserAddressDetails(userDetailsRequestDTO.addressDetails());
 
         UserDetails userDetails = UserDetails
                 .builder()
@@ -43,14 +44,14 @@ public class UserDetailsServiceMapper {
         userDetails.setEmailId(userDetails.getEmailId());
         userDetails.setPhoneNumber(userDetails.getPhoneNumber());
         userDetails.setPassword(userDetails.getPassword());
-        if(userDetailsRequestDTO.userAddressDTO() != null) {
+        if(userDetailsRequestDTO.addressDetails() != null) {
             List<UserAddressDetails> addressDetailsList = userDetails.getAddresses();
             if(addressDetailsList.isEmpty()) {
-                UserAddressDetails userAddressDetails = getUserAddressDetails(userDetailsRequestDTO.userAddressDTO());
+                UserAddressDetails userAddressDetails = getUserAddressDetails(userDetailsRequestDTO.addressDetails());
                 addressDetailsList.add(userAddressDetails);
             } else {
                 UserAddressDetails userAddressDetails = addressDetailsList.getFirst();
-                updateExistingAddressDetails(userAddressDetails, userDetailsRequestDTO.userAddressDTO());
+                updateExistingAddressDetails(userAddressDetails, userDetailsRequestDTO.addressDetails());
             }
         }
     }

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/restaurant/{restaurantId}")
+@RequestMapping("/v1/restaurant/owner/{restaurantId}")
 public class RestaurantFoodMenuManagementController {
     private final ManageMenuItemService manageMenuItemService;
 
