@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -20,7 +20,6 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "order_id")
     private UUID orderId;
 

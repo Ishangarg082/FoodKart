@@ -2,6 +2,7 @@ package com.fods.restaurant.controller;
 
 import com.fods.restaurant.model.MenuItemRequestDTO;
 import com.fods.restaurant.model.MenuItemResponseDTO;
+import com.fods.restaurant.model.RestaurantDetailsResponseDTO;
 import com.fods.restaurant.service.ManageMenuItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,15 @@ public class RestaurantFoodMenuManagementController {
 
     public RestaurantFoodMenuManagementController(ManageMenuItemService manageMenuItemService) {
         this.manageMenuItemService = manageMenuItemService;
+    }
+
+    @GetMapping("/restaurant-details")
+    public ResponseEntity<RestaurantDetailsResponseDTO> getRestaurantDetails(@PathVariable(name = "restaurantId") long restaurantId) {
+        RestaurantDetailsResponseDTO restaurantDetails = manageMenuItemService.getRestaurantDetails(restaurantId);
+        if (restaurantDetails != null) {
+            return ResponseEntity.ok(restaurantDetails);
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/add_menu")
@@ -31,7 +41,7 @@ public class RestaurantFoodMenuManagementController {
             @RequestBody MenuItemRequestDTO menuItemRequestDTO
     ) {
         MenuItemResponseDTO menuItemResponseDTO = manageMenuItemService.updateMenuItem(itemId, menuItemRequestDTO);
-        if(menuItemResponseDTO != null) return ResponseEntity.ok(menuItemResponseDTO);
+        if (menuItemResponseDTO != null) return ResponseEntity.ok(menuItemResponseDTO);
         return ResponseEntity.noContent().build();
     }
 

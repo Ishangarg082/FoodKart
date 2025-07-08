@@ -4,8 +4,10 @@ import com.fods.helper.APIGatewayHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @Component
@@ -36,10 +39,23 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Autowired
     private APIGatewayHelper apiGatewayHelper;
 
+    @Autowired
+    private Environment environment;
+
+    @Value("${spring.profiles.active:}")
+    private String activeProfile;
+
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+
+            // Bypass authentication in development
+            if (Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
+                logger.info("Skipping authentication for dev profile.");
+                return chain.filter(exchange);
+            }
+
             if (routeValidator.isSecured.test(request)) {
                 if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     return apiGatewayHelper.onError(exchange,

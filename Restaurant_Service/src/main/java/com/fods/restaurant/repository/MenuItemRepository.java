@@ -24,7 +24,7 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
     Optional<BigDecimal> findPriceByIdAndRestaurantId(@Param("menuId") Long menuId,
                                                       @Param("restaurantId") Long restaurantId);
 
-    @Query("SELECT new com.fods.restaurant.model.MenuItemNameAndPriceDTO(m.name, m.price) " +
+    @Query("SELECT new com.fods.restaurant.model.MenuItemNameAndPriceDTO(m.name, m.price, m.isAvailable, m.imageUrl) " +
             "FROM MenuItem m WHERE m.id = :menuId AND m.restaurant.id = :restaurantId")
     Optional<MenuItemNameAndPriceDTO> findNameAndPriceByIdAndRestaurantId(@Param("menuId") Long menuId,
                                                                           @Param("restaurantId") Long restaurantId);

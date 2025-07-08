@@ -1,6 +1,8 @@
 package com.fods.restaurant.mapper;
 
 import com.fods.restaurant.entity.MenuItem;
+import com.fods.restaurant.entity.Restaurant;
+import com.fods.restaurant.entity.RestaurantLocation;
 import com.fods.restaurant.model.*;
 
 import java.util.List;
@@ -52,6 +54,18 @@ public class RestaurantServiceMapper {
                 .isAvailable(menuItemRequestDTO.isAvailable())
                 .imageUrl(menuItemRequestDTO.imageUrl())
                 .build();
+    }
+
+    public static RestaurantDetailsResponseDTO toRestaurantDetailsResponseDTO(Restaurant restaurant) {
+        return new RestaurantDetailsResponseDTO(
+                restaurant.getId(),
+                restaurant.getName(),
+                getRestaurantAddress(restaurant.getLocation())
+        );
+    }
+
+    public static String getRestaurantAddress(RestaurantLocation restaurantLocation) {
+        return restaurantLocation.getCity() + ", " + restaurantLocation.getState();
     }
 
     public static <T> MenuItemDetailResponseDTO<T> tMenuItemDetailResponseDTO(long menuId, T data) {

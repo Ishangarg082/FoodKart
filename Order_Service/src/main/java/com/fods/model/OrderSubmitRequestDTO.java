@@ -17,4 +17,5 @@ public class OrderSubmitRequestDTO {
     private List<OrderItemsDTO> orderItemsList;
     private UserMetaDataDetailDTO userMetaDataDetail;
     private BigDecimal totalAmount; // Add proper total amount breakup contains total taxes, delivery and handling charges
+    private boolean confirmOrder = false;
 }

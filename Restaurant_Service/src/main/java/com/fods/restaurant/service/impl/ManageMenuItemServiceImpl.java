@@ -6,7 +6,9 @@ import com.fods.restaurant.exception.EntityNotFoundException;
 import com.fods.restaurant.mapper.RestaurantServiceMapper;
 import com.fods.restaurant.model.MenuItemRequestDTO;
 import com.fods.restaurant.model.MenuItemResponseDTO;
+import com.fods.restaurant.model.RestaurantDetailsResponseDTO;
 import com.fods.restaurant.repository.MenuItemRepository;
+import com.fods.restaurant.repository.RestaurantRepository;
 import com.fods.restaurant.service.ManageMenuItemService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ManageMenuItemServiceImpl implements ManageMenuItemService {
     private final MenuItemRepository menuItemRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public ManageMenuItemServiceImpl(MenuItemRepository menuItemRepository) {
+    public ManageMenuItemServiceImpl(MenuItemRepository menuItemRepository, RestaurantRepository restaurantRepository) {
         this.menuItemRepository = menuItemRepository;
+        this.restaurantRepository = restaurantRepository;
+    }
+
+    @Override
+    public RestaurantDetailsResponseDTO getRestaurantDetails(long restaurantId) {
+        return restaurantRepository.findById(restaurantId)
+                .map(RestaurantServiceMapper::toRestaurantDetailsResponseDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant not found with id: " + restaurantId));
     }
 
     @Override
